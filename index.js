@@ -51,6 +51,8 @@ const userSchema = {
     events: [eventSchema]
 };
 
+const User = mongoose.model("User", userSchema);
+
 
 // Create Express app
 const app = express();
