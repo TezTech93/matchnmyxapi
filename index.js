@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // Connection URL
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb+srv://shawnteztech93:<Tezzyk32>@cluster0.ahofjvw.mongodb.net/';
 
 // Database Name
 const dbName = 'users';
@@ -80,6 +80,28 @@ app.get('/data', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.post('/api/events', (req,res) => {
+    const event = new Event({
+        name: req.body.name,
+        description: req.body.description,
+        date: req.body.date,
+        time: req.body.time,
+        location: req.body.location,
+        attendees: req.body.attendees,
+        creator: req.body.creator});
+    event.save();
+    });
+
+app.post('/api/groups', (req,res) => {
+
+    const group = new Group({
+        name: req.body.name,
+        description: req.body.description,
+        events: req.body.events,
+        members: req.body.members});
+    group.save();
+    });
 
 //Route for getting events from MongoDB
 app.get('/events', async (req,res) => {
