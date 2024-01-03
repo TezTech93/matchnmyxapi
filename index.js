@@ -1,5 +1,7 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -10,6 +12,45 @@ const eventsDb = 'events';
 const groupsDb = 'groups';
 const userSetttingsDb = 'settings';
 const userInboxDb = 'inbox';
+
+const messageSchema = {
+    sender: String,
+    receiver: String,
+    content: String,
+    date: Date
+};
+
+const Message = mongoose.model("Message", messageSchema);
+
+const eventSchema = {
+    name: String,
+    description: String,
+    date: Date,
+    time: String,
+    location: String,
+    attendees: [String],
+    creator: String
+};
+
+const Event = mongoose.model("Event", eventSchema);
+
+const groupSchema = {
+    name: String,
+    description: String,
+    events: [eventSchema],
+    members: [String]
+};
+
+const Group = mongoose.model("Group", groupSchema);
+
+const userSchema = {
+    name: String,
+    email: String,
+    password: String,
+    messages: [groupSchema],
+    events: [eventSchema]
+};
+
 
 // Create Express app
 const app = express();
